@@ -1,18 +1,15 @@
 defmodule Elixvery do
-  @moduledoc """
-  Documentation for `Elixvery`.
-  """
+  alias Elixvery.Users.Agent, as: UserAgent
+  alias Elixvery.Orders.Agent, as: OrderAgent
 
-  @doc """
-  Hello world.
+  alias Elixvery.Users.CreateOrUpdate, as: CreateOrUpdateUser
+  alias Elixvery.Orders.CreateOrUpdate, as: CreateOrUpdateOrder
 
-  ## Examples
-
-      iex> Elixvery.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def start_agents do
+    UserAgent.start_link(%{})
+    OrderAgent.start_link(%{})
   end
+
+  defdelegate create_or_update_user(params), to: CreateOrUpdateUser, as: :call
+  defdelegate create_or_update_order(params), to: CreateOrUpdateOrder, as: :call
 end
